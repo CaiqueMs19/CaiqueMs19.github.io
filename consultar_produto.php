@@ -1,9 +1,27 @@
+<?php
+session_start(); // Inicia a sessão
+
+// Verifica se o usuário está logado
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php"); // Redireciona se não estiver logado
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bem-Vindo ao Almoxarifado</title>
+    <a href="controle.php" style="
+        text-decoration:none;
+        color:black;
+        position:relative;
+        top:45px;
+        left:150px;">Voltar
+    </a>
     <style>
         /* Reset básico */
         * {
@@ -20,11 +38,7 @@
             justify-content: center;
             flex-direction: column;
             height: 100vh;
-            background-image:url(img/logo.png);
-            background-repeat:no-repeat;
-            background-position:center;
-            background-size:50%;
-            /*background-color: #f4f6f8;*/
+            background-color: #f4f6f8;
             color: #333;
         }
 
@@ -56,9 +70,6 @@
             border-radius: 5px; /* Bordas arredondadas */
             display: inline-block; /* Para que o padding funcione corretamente */
             transition: background-color 0.3s; /* Efeito de transição */
-            position: relative;
-            bottom:60px;
-            left:150px;
         }
 
         .link:hover {
@@ -127,14 +138,11 @@
             text-decoration: none;
             color: #333;
         }
-
-        
     </style>
 </head>
 <body>
     <div class="container">
         <h1 class="titulo">ALMOXARIFADO</h1>
-        <a href="login.php" class="link">Login</a>
         
         <form action="" method="POST" class="barra_pesquisa">
             <input type="text" class="barra" name="pesquisa" placeholder="Pesquisar produtos..." required>
@@ -155,7 +163,7 @@
                     $termo = $_POST['pesquisa'];
 
                     // Prepara a consulta
-                    $query = "SELECT * FROM produto WHERE produto LIKE ?"; // Supondo que a tabela se chama 'produtos' e a coluna 'nome'
+                    $query = "SELECT * FROM produto WHERE produto LIKE ? AND status = 1"; // Supondo que a tabela se chama 'produtos' e a coluna 'nome'
                     $stmt = $conn->prepare($query);
                     $searchTerm = "%$termo%"; // Adiciona os percentuais para busca parcial
                     $stmt->bind_param("s", $searchTerm);
@@ -168,7 +176,7 @@
                             // Supondo que 'foto' é o nome da coluna que contém a URL da imagem
                             $foto = htmlspecialchars($row['foto']);
                             $produtoNome = htmlspecialchars($row['produto']);
-                            $linkProduto = "consulta_produto_public.php?id=" . $row['id_produto']; // Link para a página de informações do produto
+                            $linkProduto = "produto_info.php?id=" . $row['id_produto']; // Link para a página de informações do produto
 
                             $resultados .= "<a href='$linkProduto' class='card'>";
                             $resultados .= "<img src='DB/$foto' alt='$produtoNome' width='100px'>";

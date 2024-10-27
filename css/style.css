@@ -1,0 +1,36 @@
+.titulo{
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
+    position: relative;
+    left: 550px;
+    bottom: 40px;
+    font-size: 20px;
+}
+
+.barra_pesquisa{
+    border: black solid 2px;
+    width: 600px;
+    height: 53px;
+    border-radius: 40px;
+    position: relative;
+    top: 150px;
+}
+
+.barra{
+    width: 500px;
+    height: 50px;
+    border: white;
+    border-radius: 40px;
+    position: relative;
+    bottom: 9px;
+    font-size: 40px;
+}
+
+.lupa{
+    position: relative;
+    bottom: -1px;
+}
